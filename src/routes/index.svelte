@@ -1,17 +1,18 @@
 <!-- JS -->
 <script>
-  import { supabase } from "$lib/supabase";
-  import { fly } from "svelte/transition";
+  import { supabase } from '$lib/supabase'
+  import { fly } from 'svelte/transition'
 
   async function getRecipes() {
     try {
       const { data, error } = await supabase
-        .from("recipe")
+        .from('recipe')
         .select()
-        .order("id", { ascending: false });
-      return data;
+        .order('id', { ascending: false })
+      console.log(data)
+      return data
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 </script>
@@ -23,7 +24,11 @@
   <div class="loader" />
 {:then data}
   {#each data as data}
-    <div class="recipe" in:fly={{ y: -10, duration: 500, delay: 500 }} out:fly={{ y: -10, duration: 500 }}>
+    <div
+      class="recipe"
+      in:fly={{ y: -10, duration: 500, delay: 500 }}
+      out:fly={{ y: -10, duration: 500 }}
+    >
       <div class="recipe-header">
         <img
           src="/assets/icons/profile-icon.svg"
@@ -44,9 +49,16 @@
         <span>Preperation Time:</span>
         {data.preparation_time} Minutes
       </p>
-      <p class="time"><span>Cooking Time:</span> {data.cooking_time} Minutes</p>
+      <p class="time">
+        <span>Cooking Time:</span>
+        {data.cooking_time} Minutes
+      </p>
     </div>
-    <span class="seperator"  in:fly={{ y: -10, duration: 500, delay: 500 }} out:fly={{ y: -10, duration: 500 }}/>
+    <span
+      class="seperator"
+      in:fly={{ y: -10, duration: 500, delay: 500 }}
+      out:fly={{ y: -10, duration: 500 }}
+    />
   {/each}
 {:catch error}
   <p>Something went wrong while fetching the data:</p>

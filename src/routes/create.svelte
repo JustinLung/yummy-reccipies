@@ -3,14 +3,14 @@
   import { goto } from "$app/navigation";
   import { fly } from "svelte/transition";
 
-  let name, ingridients, description, prep_time, cooking_time, necessities;
+  let name, ingredients, description, prep_time, cooking_time, necessities;
   let loading = false;
 
   async function addRecipe() {
     try {
       const { data, error } = await supabase
         .from("recipe")
-        .insert([{ name, ingridients, description, necessities }]);
+        .insert([{ name, ingredients, description, necessities }]);
       goto("/");
       console.log(error);
       return data;
@@ -68,12 +68,12 @@
     />
   </div>
   <div>
-    <label for="recipeName">Ingridients</label>
+    <label for="ingredients">Ingredients</label>
     <textarea
       type="text"
-      name="recipeName"
+      name="ingredients"
       required
-      bind:value={ingridients}
+      bind:value={ingredients}
       placeholder="Penne 300 gram, tomato's 100 gram...."
     />
   </div>

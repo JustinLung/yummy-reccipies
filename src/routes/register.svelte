@@ -1,35 +1,35 @@
 <script>
-  import { supabase } from "$lib/supabase.js";
-  import { fly } from "svelte/transition";
+  import { supabase } from '$lib/supabase.js'
+  import { fly } from 'svelte/transition'
 
-  let loading = false;
-  let email, password, confirmPassword;
-  let message = { success: null, display: "" };
+  let loading = false
+  let email, password, confirmPassword
+  let message = { success: null, display: '' }
 
   async function handleSignUp() {
     if (password != confirmPassword) {
       message = {
         success: false,
-        display: "Password and Confirm Password fields do not match",
-      };
-      return;
+        display: 'Password and Confirm Password fields do not match',
+      }
+      return
     }
     try {
-      loading = true;
-      const { error } = await supabase.auth.signUp({ email, password });
-      console.log(error);
-      if (error) throw error;
+      loading = true
+      const { error } = await supabase.auth.signUp({ email, password })
+      console.log(error)
+      if (error) throw error
       message = {
         success: true,
         display:
-          "We have sent you an confirmation email. Please check your email",
-      };
+          'We have sent you a confirmation email. Please check your inbox',
+      }
     } catch (error) {
-      console.log(error);
-      let errorMsg = error.error_description || error.message;
-      message = { success: false, display: errorMsg };
+      console.log(error)
+      let errorMsg = error.error_description || error.message
+      message = { success: false, display: errorMsg }
     } finally {
-      loading = false;
+      loading = false
     }
   }
 </script>
@@ -45,11 +45,10 @@
 </section>
 
 <div
-  on:submit|preventDefault={handleSignUp}
   in:fly={{ y: -10, duration: 500, delay: 500 }}
   out:fly={{ y: -10, duration: 500 }}
 >
-  <form>
+  <form on:submit|preventDefault={handleSignUp}>
     <div>
       <label for="email">Email</label>
       <input
@@ -80,11 +79,11 @@
       />
     </div>
 
-    <p class="reset">Forgot Password? / <a href="/password-reset">Reset</a></p>
+    <p class="reset">Forgot Password? / <a href="/forgot-password">Reset</a></p>
 
     <input
       type="submit"
-      value={loading ? "Loading" : "Sign up"}
+      value={loading ? 'Loading' : 'Sign up'}
       disabled={loading}
     />
 
@@ -136,14 +135,16 @@
     font-size: 1rem;
   }
 
-  input[type="email"],
-  input[type="password"] {
+  input[type='email'],
+  input[type='password'] {
     height: 1.8em;
   }
 
-  input[type="submit"] {
+  input[type='submit'] {
     background-color: var(--medium-state-purple);
     padding: 0.7em 5em;
+    color: var(--magnolia);
+    width: 100%;
   }
 
   .reset {

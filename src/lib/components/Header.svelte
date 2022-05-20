@@ -25,7 +25,7 @@
 
 <style>
   header {
-    padding: 1em 1.5em;
+    padding: 1.5em;
     display: flex;
     flex-direction: row;
     align-items: center;

@@ -8,6 +8,7 @@
   --magnolia: #f8f0fb;
   --ash-gray: #cad5ca;
   --color-warning: #ff8080;
+  --color-success: #64ce84;
 }
 
 /* GLOBAL STYLING */
@@ -22,6 +23,10 @@ body {
   background-color: var(--raisin-black);
   color: var(--magnolia);
   box-sizing: border-box;
+}
+
+::placeholder {
+  font-family: 'Fira Sans', sans-serif;
 }
 
 main {
@@ -55,8 +60,13 @@ main {
   margin-inline: auto;
 }
 
-.alert {
+.alert-danger {
   color: var(--color-warning);
+  padding-top: 1em;
+}
+
+.alert-success {
+  color: var(--color-success);
   padding-top: 1em;
 }
 

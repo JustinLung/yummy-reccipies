@@ -1,26 +1,26 @@
 <script>
-  import { supabase } from "$lib/supabase.js";
-  import { goto } from "$app/navigation";
-  import { fly } from "svelte/transition";
+  import { supabase } from '$lib/supabase.js'
+  import { goto } from '$app/navigation'
+  import { fly } from 'svelte/transition'
 
-  let loading = false;
-  let email, password;
-  let message = { success: null, display: "" };
-  const user = supabase.auth.user();
-  export const session = supabase.auth.session();
+  let loading = false
+  let email, password
+  let message = { success: null, display: '' }
+  const user = supabase.auth.user()
+  export const session = supabase.auth.session()
 
   async function handleLogin() {
     try {
-      loading = true;
-      const { error } = await supabase.auth.signIn({ email, password });
-      if (error) throw error;
-      message = { success: true, display: "Successfully logged in!" };
-      goto("/");
+      loading = true
+      const { error } = await supabase.auth.signIn({ email, password })
+      if (error) throw error
+      message = { success: true, display: 'Successfully logged in!' }
+      goto('/')
     } catch (error) {
-      let errorMsg = error.error_description || error.message;
-      message = { success: false, display: errorMsg };
+      let errorMsg = error.error_description || error.message
+      message = { success: false, display: errorMsg }
     } finally {
-      loading = false;
+      loading = false
     }
   }
 </script>
@@ -62,11 +62,11 @@
     />
   </div>
 
-  <p class="reset">Forgot Password? / <a href="/password-reset">Reset</a></p>
+  <p class="reset">Forgot Password? / <a href="/forgot-password">Reset</a></p>
 
   <input
     type="submit"
-    value={loading ? "Loading" : "Login"}
+    value={loading ? 'Loading' : 'Login'}
     disabled={loading}
     class="cta"
   />
@@ -117,14 +117,16 @@
     font-size: 1rem;
   }
 
-  input[type="email"],
-  input[type="password"] {
+  input[type='email'],
+  input[type='password'] {
     height: 1.8em;
   }
 
-  input[type="submit"] {
+  input[type='submit'] {
     background-color: var(--medium-state-purple);
+    color: var(--magnolia);
     padding: 0.7em 5em;
+    width: 100%;
   }
 
   .reset {

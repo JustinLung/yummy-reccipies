@@ -1,43 +1,43 @@
 <script>
-  import { supabase } from "$lib/supabase.js";
-  import { fly } from "svelte/transition";
+  import { supabase } from '$lib/supabase.js'
+  import { fly } from 'svelte/transition'
 
-  let loading = false;
-  let username = null;
-  let website = null;
-  let profile_name = null;
-  let avatar_url = null;
+  let loading = false
+  let username = null
+  let website = null
+  let profile_name = null
+  let avatar_url = null
 
   async function getProfile() {
     try {
-      loading = true;
-      const user = supabase.auth.user();
+      loading = true
+      const user = supabase.auth.user()
 
       let { data, error, status } = await supabase
-        .from("profiles")
+        .from('profiles')
         .select(`username, website, avatar_url, profile_name`)
-        .eq("id", user.id)
-        .single();
+        .eq('id', user.id)
+        .single()
 
-      if (error && status !== 406) throw error;
+      if (error && status !== 406) throw error
 
       if (data) {
-        username = data.username;
-        website = data.website;
-        avatar_url = data.avatar_url;
-        profile_name = data.profile_name;
+        username = data.username
+        website = data.website
+        avatar_url = data.avatar_url
+        profile_name = data.profile_name
       }
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
     } finally {
-      loading = false;
+      loading = false
     }
   }
 
   async function updateProfile() {
     try {
-      loading = true;
-      const user = supabase.auth.user();
+      loading = true
+      const user = supabase.auth.user()
 
       const updates = {
         id: user.id,
@@ -46,17 +46,17 @@
         avatar_url,
         profile_name,
         updated_at: new Date(),
-      };
+      }
 
-      let { error } = await supabase.from("profiles").upsert(updates, {
-        returning: "minimal",
-      });
+      let { error } = await supabase.from('profiles').upsert(updates, {
+        returning: 'minimal',
+      })
 
-      if (error) throw error;
+      if (error) throw error
     } catch (error) {
-      alert(error.message);
+      alert(error.message)
     } finally {
-      loading = false;
+      loading = false
     }
   }
 </script>
@@ -67,6 +67,13 @@
 >
   👤 Edit Profile
 </h2>
+
+<img
+  src={avatar_url}
+  alt={username}
+  in:fly={{ y: -10, duration: 500, delay: 500 }}
+  out:fly={{ y: -10, duration: 500 }}
+/>
 
 <form
   use:getProfile
@@ -91,7 +98,7 @@
     <input
       type="submit"
       class="cta"
-      value={loading ? "Loading ..." : "Update Profile"}
+      value={loading ? 'Loading ...' : 'Update Profile'}
       disabled={loading}
     />
   </div>
@@ -99,11 +106,18 @@
 
 <style>
   h2 {
+    font-size: 1.3rem;
     padding-bottom: 0.5em;
   }
   div {
     display: flex;
     flex-direction: column;
+  }
+
+  img {
+    border-radius: 0.5em;
+    margin-bottom: 1em;
+    width: 100%;
   }
 
   input:nth-child(2) {
@@ -121,7 +135,7 @@
     font-size: 1rem;
   }
 
-  input[type="submit"] {
+  input[type='submit'] {
     all: unset;
     background-color: var(--medium-state-purple);
     padding: 0.7em 2em;
