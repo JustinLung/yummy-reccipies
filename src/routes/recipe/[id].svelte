@@ -1,16 +1,16 @@
 <script>
-  import { supabase } from '$lib/supabase'
-  import { page } from '$app/stores'
-  const id = $page.params.id
+  import { supabase } from "$lib/supabase";
+  import { page } from "$app/stores";
+  const id = $page.params.id;
   async function renderRecipe() {
     try {
       const { data, error } = await supabase
-        .from('recipe')
+        .from("recipe")
         .select()
-        .eq('id', id)
-      return data[0]
+        .eq("id", id);
+      return data[0];
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 </script>
@@ -23,8 +23,10 @@
     <img src="/assets/images/pasta.webp" alt={data.name} class="recipe-image" />
     <h2>{data.name}</h2>
     <p><span>Description:</span> {data.description}</p>
-    <p><span>Recipe:</span> {data.recipe}</p>
+    <p><span>Ingridients:</span> {data.ingridients}</p>
     <p><span>Necessities:</span> {data.necessities}</p>
+    <p><span>Preperation Time:</span> {data.preparation_time} Minutes</p>
+    <p><span>Cooking Time:</span> {data.cooking_time} Minutes</p>
 
     <a href="/">Return Home</a>
   </section>
@@ -40,7 +42,11 @@
     padding-top: 1em;
   }
 
-  p {
+  p:nth-child(5) {
+    padding-bottom: 1.5em;
+  }
+
+  p:nth-child(7) {
     padding-bottom: 1.5em;
   }
 

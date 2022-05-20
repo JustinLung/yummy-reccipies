@@ -86,10 +86,6 @@
 </form>
 
 <style>
-  form {
-    padding: 0 1.5em;
-  }
-
   div {
     display: flex;
     flex-direction: column;
