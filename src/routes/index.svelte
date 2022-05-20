@@ -61,7 +61,7 @@
 
   .seperator {
     margin-top: 1em;
-    margin-bottom: 4em;
+    margin-bottom: 2em;
   }
 
   .profile-icon {

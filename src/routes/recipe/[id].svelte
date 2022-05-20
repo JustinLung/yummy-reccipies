@@ -20,22 +20,32 @@
   <div class="loader" />
 {:then data}
   <section>
+    <img src="/assets/images/pasta.webp" alt={data.name} class="recipe-image" />
     <h2>{data.name}</h2>
-    <p class="description">{data.description}</p>
-    <p class="recipe">{data.recipe}</p>
+    <p><span>Description:</span> {data.description}</p>
+    <p><span>Recipe:</span> {data.recipe}</p>
+    <p><span>Necessities:</span> {data.necessities}</p>
 
     <a href="/">Return Home</a>
   </section>
 {/await}
 
 <style>
-  .description {
-    font-weight: bold;
-    padding-bottom: 1em;
+  .recipe-image {
+    width: 100%;
+    border-radius: 0.5em;
   }
 
-  .recipe {
+  h2 {
+    padding-top: 1em;
+  }
+
+  p {
     padding-bottom: 1.5em;
+  }
+
+  span {
+    font-weight: bold;
   }
 
   a {

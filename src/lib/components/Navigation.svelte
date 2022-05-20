@@ -17,22 +17,29 @@
     <li>
       <a href="/"><img src="/assets/icons/home-icon.svg" alt="Home Icon" /></a>
     </li>
-    <li>
-      <a href="/create"
-        ><img src="/assets/icons/create-icon.svg" alt="Create Icon" /></a
-      >
-    </li>
-    <li>
-      {#if $user}
+    {#if $user}
+      <li>
+        <a href="/create">
+          <img src="/assets/icons/create-icon.svg" alt="Create Icon" /></a
+        >
+      </li>
+      <li>
         <a href="/profile">
           <img src="/assets/icons/profile-icon.svg" alt="Profile Icon" />
         </a>
-      {:else}
+      </li>
+    {:else}
+      <li>
+        <a href="/login">
+          <img src="/assets/icons/create-icon.svg" alt="Create Icon" /></a
+        >
+      </li>
+      <li>
         <a href="/login">
           <img src="/assets/icons/profile-icon.svg" alt="Profile Icon" />
         </a>
-      {/if}
-    </li>
+      </li>
+    {/if}
   </ul>
 </nav>
 
