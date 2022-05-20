@@ -1,16 +1,18 @@
 <script>
-  import { supabase } from "$lib/supabase";
-  import { page } from "$app/stores";
-  const id = $page.params.id;
+  import { supabase } from '$lib/supabase'
+  import { page } from '$app/stores'
+  import { fly } from 'svelte/transition'
+
+  const id = $page.params.id
   async function renderRecipe() {
     try {
       const { data, error } = await supabase
-        .from("recipe")
+        .from('recipe')
         .select()
-        .eq("id", id);
-      return data[0];
+        .eq('id', id)
+      return data[0]
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 </script>
@@ -19,11 +21,29 @@
   <p class="loading-text">Loading Content...</p>
   <div class="loader" />
 {:then data}
-  <section>
+  <div
+    class="recipe-header"
+    in:fly={{ y: -10, duration: 500, delay: 500 }}
+    out:fly={{ y: -10, duration: 500 }}
+  >
+    <img
+      src="/assets/icons/profile-icon.svg"
+      alt="profile"
+      class="profile-icon"
+    />
+    <div class="username">
+      <h2>{data.profile_name}</h2>
+      <p>{data.username}</p>
+    </div>
+  </div>
+  <section
+    in:fly={{ y: -10, duration: 500, delay: 500 }}
+    out:fly={{ y: -10, duration: 500 }}
+  >
     <img src="/assets/images/pasta.webp" alt={data.name} class="recipe-image" />
-    <h2>{data.name}</h2>
+    <h2 class="recipe-name">{data.name}</h2>
     <p><span>Description:</span> {data.description}</p>
-    <p><span>Ingridients:</span> {data.ingridients}</p>
+    <p><span>Ingredients:</span> {data.ingredients}</p>
     <p><span>Necessities:</span> {data.necessities}</p>
     <p><span>Preperation Time:</span> {data.preparation_time} Minutes</p>
     <p><span>Cooking Time:</span> {data.cooking_time} Minutes</p>
@@ -33,12 +53,26 @@
 {/await}
 
 <style>
+  .recipe-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    gap: 1em;
+    margin-bottom: 1em;
+  }
+
+  .profile-icon {
+    width: 2.5em;
+  }
+
   .recipe-image {
     width: 100%;
     border-radius: 0.5em;
   }
 
-  h2 {
+  .recipe-name {
     padding-top: 1em;
   }
 
