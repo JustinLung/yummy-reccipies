@@ -1,6 +1,7 @@
 <script>
   import { supabase } from "$lib/supabase";
   import { goto } from "$app/navigation";
+  import { fly } from "svelte/transition";
 
   let name, ingridients, description, prep_time, cooking_time, necessities;
   let loading = false;
@@ -9,7 +10,7 @@
     try {
       const { data, error } = await supabase
         .from("recipe")
-        .insert([{ name, recipe, description, necessities }]);
+        .insert([{ name, ingridients, description, necessities }]);
       goto("/");
       console.log(error);
       return data;
@@ -19,7 +20,7 @@
   }
 </script>
 
-<form on:submit|preventDefault={addRecipe}>
+<form on:submit|preventDefault={addRecipe}  in:fly={{ y: -10, duration: 500, delay: 500 }} out:fly={{ y: -10, duration: 500 }}>
   <legend>🍽 Create Recipe</legend>
 
   <div>
@@ -60,9 +61,9 @@
     >
     <input
       type="number"
-      name="description"
+      name="cookTime"
       required
-      bind:value={prep_time}
+      bind:value={cooking_time}
       placeholder="30"
     />
   </div>

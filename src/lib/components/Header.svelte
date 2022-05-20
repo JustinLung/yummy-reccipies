@@ -9,7 +9,6 @@
   })
 
   function logout() {
-    console.log('Successfully Logged Out')
     supabase.auth.signOut()
     goto('/login')
   }

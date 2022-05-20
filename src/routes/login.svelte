@@ -1,31 +1,34 @@
 <script>
-  import { supabase } from '$lib/supabase.js'
-  import { goto } from '$app/navigation'
+  import { supabase } from "$lib/supabase.js";
+  import { goto } from "$app/navigation";
+  import { fly } from "svelte/transition";
 
-  let loading = false
-  let email, password
-  let message = { success: null, display: '' }
-  const user = supabase.auth.user()
-  export const session = supabase.auth.session()
+  let loading = false;
+  let email, password;
+  let message = { success: null, display: "" };
+  const user = supabase.auth.user();
+  export const session = supabase.auth.session();
 
   async function handleLogin() {
     try {
-      loading = true
-      const { error } = await supabase.auth.signIn({ email, password })
-      if (error) throw error
-      message = { success: true, display: 'Successfully logged in!' }
-      console.log(user)
-      goto('/')
+      loading = true;
+      const { error } = await supabase.auth.signIn({ email, password });
+      if (error) throw error;
+      message = { success: true, display: "Successfully logged in!" };
+      goto("/");
     } catch (error) {
-      let errorMsg = error.error_description || error.message
-      message = { success: false, display: errorMsg }
+      let errorMsg = error.error_description || error.message;
+      message = { success: false, display: errorMsg };
     } finally {
-      loading = false
+      loading = false;
     }
   }
 </script>
 
-<section>
+<section
+  in:fly={{ y: -10, duration: 500, delay: 500 }}
+  out:fly={{ y: -10, duration: 500 }}
+>
   <h2>👋 Hey, Login Now.</h2>
   <p>
     Don't have an account yet? <a href="/register" class="text-blue-900"
@@ -34,7 +37,11 @@
   </p>
 </section>
 
-<form on:submit|preventDefault={handleLogin}>
+<form
+  on:submit|preventDefault={handleLogin}
+  in:fly={{ y: -10, duration: 500, delay: 500 }}
+  out:fly={{ y: -10, duration: 500 }}
+>
   <div>
     <label for="email">Email</label>
     <input
@@ -59,7 +66,7 @@
 
   <input
     type="submit"
-    value={loading ? 'Loading' : 'Login'}
+    value={loading ? "Loading" : "Login"}
     disabled={loading}
     class="cta"
   />
@@ -80,23 +87,19 @@
     margin: 0;
   }
 
+  h2 {
+    padding-top: 1em;
+  }
+
   a {
     color: var(--ash-gray);
     text-decoration: none;
     font-weight: 500;
   }
 
-  section {
-    padding: 1.5em;
-  }
-
   div {
     display: flex;
     flex-direction: column;
-  }
-
-  form {
-    padding: 0 1.5em;
   }
 
   input:nth-child(2) {
@@ -114,12 +117,12 @@
     font-size: 1rem;
   }
 
-  input[type='email'],
-  input[type='password'] {
+  input[type="email"],
+  input[type="password"] {
     height: 1.8em;
   }
 
-  input[type='submit'] {
+  input[type="submit"] {
     background-color: var(--medium-state-purple);
     padding: 0.7em 5em;
   }

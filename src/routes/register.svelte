@@ -1,46 +1,54 @@
 <script>
-  import { supabase } from '$lib/supabase.js'
+  import { supabase } from "$lib/supabase.js";
+  import { fly } from "svelte/transition";
 
-  let loading = false
-  let email, password, confirmPassword
-  let message = { success: null, display: '' }
+  let loading = false;
+  let email, password, confirmPassword;
+  let message = { success: null, display: "" };
 
   async function handleSignUp() {
     if (password != confirmPassword) {
       message = {
         success: false,
-        display: 'Password and Confirm Password fields do not match',
-      }
-      return
+        display: "Password and Confirm Password fields do not match",
+      };
+      return;
     }
     try {
-      loading = true
-      const { error } = await supabase.auth.signUp({ email, password })
-      console.log(error)
-      if (error) throw error
+      loading = true;
+      const { error } = await supabase.auth.signUp({ email, password });
+      console.log(error);
+      if (error) throw error;
       message = {
         success: true,
         display:
-          'We have sent you an confirmation email. Please check your email',
-      }
+          "We have sent you an confirmation email. Please check your email",
+      };
     } catch (error) {
-      console.log(error)
-      let errorMsg = error.error_description || error.message
-      message = { success: false, display: errorMsg }
+      console.log(error);
+      let errorMsg = error.error_description || error.message;
+      message = { success: false, display: errorMsg };
     } finally {
-      loading = false
+      loading = false;
     }
   }
 </script>
 
-<section>
-  <h2>🧁 Register</h2>
+<section
+  in:fly={{ y: -10, duration: 500, delay: 500 }}
+  out:fly={{ y: -10, duration: 500 }}
+>
+  <h2>🍕 Register</h2>
   <p>
     Already have an account yet? <a href="/login">Sign In</a>
   </p>
 </section>
 
-<div on:submit|preventDefault={handleSignUp}>
+<div
+  on:submit|preventDefault={handleSignUp}
+  in:fly={{ y: -10, duration: 500, delay: 500 }}
+  out:fly={{ y: -10, duration: 500 }}
+>
   <form>
     <div>
       <label for="email">Email</label>
@@ -76,7 +84,7 @@
 
     <input
       type="submit"
-      value={loading ? 'Loading' : 'Sign up'}
+      value={loading ? "Loading" : "Sign up"}
       disabled={loading}
     />
 
@@ -98,23 +106,19 @@
     margin: 0;
   }
 
+  h2 {
+    padding-top: 1em;
+  }
+
   a {
     color: var(--ash-gray);
     text-decoration: none;
     font-weight: 500;
   }
 
-  section {
-    padding: 1.5em;
-  }
-
   div {
     display: flex;
     flex-direction: column;
-  }
-
-  form {
-    padding: 0 1.5em;
   }
 
   input:nth-child(2) {
@@ -132,12 +136,12 @@
     font-size: 1rem;
   }
 
-  input[type='email'],
-  input[type='password'] {
+  input[type="email"],
+  input[type="password"] {
     height: 1.8em;
   }
 
-  input[type='submit'] {
+  input[type="submit"] {
     background-color: var(--medium-state-purple);
     padding: 0.7em 5em;
   }

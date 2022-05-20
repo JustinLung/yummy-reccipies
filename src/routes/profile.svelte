@@ -1,43 +1,43 @@
 <script>
-  import { supabase } from '$lib/supabase.js'
-  import { user } from '$lib/stores/store.js'
+  import { supabase } from "$lib/supabase.js";
+  import { fly } from "svelte/transition";
 
-  let loading = false
-  let username = null
-  let website = null
-  let profile_name = null
-  let avatar_url = null
+  let loading = false;
+  let username = null;
+  let website = null;
+  let profile_name = null;
+  let avatar_url = null;
 
   async function getProfile() {
     try {
-      loading = true
-      const user = supabase.auth.user()
+      loading = true;
+      const user = supabase.auth.user();
 
       let { data, error, status } = await supabase
-        .from('profiles')
+        .from("profiles")
         .select(`username, website, avatar_url, profile_name`)
-        .eq('id', user.id)
-        .single()
+        .eq("id", user.id)
+        .single();
 
-      if (error && status !== 406) throw error
+      if (error && status !== 406) throw error;
 
       if (data) {
-        username = data.username
-        website = data.website
-        avatar_url = data.avatar_url
-        profile_name = data.profile_name
+        username = data.username;
+        website = data.website;
+        avatar_url = data.avatar_url;
+        profile_name = data.profile_name;
       }
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     } finally {
-      loading = false
+      loading = false;
     }
   }
 
   async function updateProfile() {
     try {
-      loading = true
-      const user = supabase.auth.user()
+      loading = true;
+      const user = supabase.auth.user();
 
       const updates = {
         id: user.id,
@@ -46,22 +46,34 @@
         avatar_url,
         profile_name,
         updated_at: new Date(),
-      }
+      };
 
-      let { error } = await supabase.from('profiles').upsert(updates, {
-        returning: 'minimal',
-      })
+      let { error } = await supabase.from("profiles").upsert(updates, {
+        returning: "minimal",
+      });
 
-      if (error) throw error
+      if (error) throw error;
     } catch (error) {
-      alert(error.message)
+      alert(error.message);
     } finally {
-      loading = false
+      loading = false;
     }
   }
 </script>
 
-<form use:getProfile on:submit|preventDefault={updateProfile}>
+<h2
+  in:fly={{ y: -10, duration: 500, delay: 500 }}
+  out:fly={{ y: -10, duration: 500 }}
+>
+  👤 Edit Profile
+</h2>
+
+<form
+  use:getProfile
+  on:submit|preventDefault={updateProfile}
+  in:fly={{ y: -10, duration: 500, delay: 500 }}
+  out:fly={{ y: -10, duration: 500 }}
+>
   <div>
     <label for="profile_name">Name</label>
     <input id="profile_name" type="text" bind:value={profile_name} />
@@ -79,13 +91,16 @@
     <input
       type="submit"
       class="cta"
-      value={loading ? 'Loading ...' : 'Update Profile'}
+      value={loading ? "Loading ..." : "Update Profile"}
       disabled={loading}
     />
   </div>
 </form>
 
 <style>
+  h2 {
+    padding-bottom: 0.5em;
+  }
   div {
     display: flex;
     flex-direction: column;
@@ -106,7 +121,7 @@
     font-size: 1rem;
   }
 
-  input[type='submit'] {
+  input[type="submit"] {
     all: unset;
     background-color: var(--medium-state-purple);
     padding: 0.7em 2em;

@@ -1,14 +1,17 @@
 <!-- JS -->
 <script>
-  import { supabase } from '$lib/supabase'
+  import { supabase } from "$lib/supabase";
+  import { fly } from "svelte/transition";
 
   async function getRecipes() {
     try {
-      const { data, error } = await supabase.from('recipe').select()
-      console.log(data)
-      return data
+      const { data, error } = await supabase
+        .from("recipe")
+        .select()
+        .order("id", { ascending: false });
+      return data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 </script>
@@ -20,7 +23,7 @@
   <div class="loader" />
 {:then data}
   {#each data as data}
-    <div class="recipe">
+    <div class="recipe" in:fly={{ y: -10, duration: 500, delay: 500 }} out:fly={{ y: -10, duration: 500 }}>
       <div class="recipe-header">
         <img
           src="/assets/icons/profile-icon.svg"
@@ -36,9 +39,14 @@
         <img src="/assets/images/pasta.webp" alt="" class="recipe-image" />
       </a>
       <h3>{data.name}</h3>
-      <p class="description">{data.description}</p>
+      <p class="description"><span>Description:</span> {data.description}</p>
+      <p class="time">
+        <span>Preperation Time:</span>
+        {data.preparation_time} Minutes
+      </p>
+      <p class="time"><span>Cooking Time:</span> {data.cooking_time} Minutes</p>
     </div>
-    <span class="seperator" />
+    <span class="seperator"  in:fly={{ y: -10, duration: 500, delay: 500 }} out:fly={{ y: -10, duration: 500 }}/>
   {/each}
 {:catch error}
   <p>Something went wrong while fetching the data:</p>
@@ -83,8 +91,13 @@
     align-self: flex-start;
   }
 
-  .description {
+  .description,
+  .time {
     align-self: flex-start;
+  }
+
+  span {
+    font-weight: bold;
   }
 
   .recipe .recipe-image {
