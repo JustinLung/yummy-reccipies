@@ -1,27 +1,37 @@
 <script>
-  import { supabase } from "$lib/supabase";
-  import { goto } from "$app/navigation";
-  import { fly } from "svelte/transition";
+  import { supabase } from '$lib/supabase'
+  import { goto } from '$app/navigation'
+  import { fly } from 'svelte/transition'
 
-  let name, ingredients, description, prep_time, cooking_time, necessities;
-  let loading = false;
+  let name, ingredients, description, prep_time, cooking_time, necessities
+  let file = null
+  let loading = false
 
   async function addRecipe() {
     try {
       const { data, error } = await supabase
-        .from("recipe")
-        .insert([{ name, ingredients, description, necessities }]);
-      goto("/");
-      console.log(error);
-      return data;
+        .from('recipe')
+        .insert([{ name, ingredients, description, necessities }])
+      goto('/')
+      return data
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
+  }
+
+  function getFile(e) {
+    file = !!e.target.files.length && e.target.files[0]
   }
 </script>
 
-<form on:submit|preventDefault={addRecipe}  in:fly={{ y: -10, duration: 500, delay: 500 }} out:fly={{ y: -10, duration: 500 }}>
+<form
+  on:submit|preventDefault={addRecipe}
+  in:fly={{ y: -10, duration: 500, delay: 500 }}
+  out:fly={{ y: -10, duration: 500 }}
+>
   <legend>🍽 Create Recipe</legend>
+
+  <input type="file" on:change={getFile} />
 
   <div>
     <label for="recipeName">Recipe name</label>
@@ -89,7 +99,7 @@
   </div>
   <input
     type="submit"
-    value={loading ? "Loading" : "Create Recipe"}
+    value={loading ? 'Loading' : 'Create Recipe'}
     disabled={loading}
   />
 </form>
@@ -124,7 +134,7 @@
     height: 6em;
   }
 
-  input[type="submit"] {
+  input[type='submit'] {
     all: unset;
     background-color: var(--medium-state-purple);
     padding: 0.7em 2em;

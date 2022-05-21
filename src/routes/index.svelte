@@ -9,7 +9,6 @@
         .from('recipe')
         .select()
         .order('id', { ascending: false })
-      console.log(data)
       return data
     } catch (error) {
       console.log(error)
@@ -24,41 +23,45 @@
   <div class="loader" />
 {:then data}
   {#each data as data}
-    <div
-      class="recipe"
-      in:fly={{ y: -10, duration: 500, delay: 500 }}
-      out:fly={{ y: -10, duration: 500 }}
-    >
-      <div class="recipe-header">
-        <img
-          src="/assets/icons/profile-icon.svg"
-          alt="profile"
-          class="profile-icon"
-        />
-        <div class="username">
-          <h2>{data.profile_name}</h2>
-          <p>{data.username}</p>
+    {#if data.length === 0}
+      <p class="block">No content found!</p>
+    {:else}
+      <div
+        class="recipe"
+        in:fly={{ y: -10, duration: 500, delay: 500 }}
+        out:fly={{ y: -10, duration: 500 }}
+      >
+        <div class="recipe-header">
+          <img
+            src="/assets/icons/profile-icon.svg"
+            alt="profile"
+            class="profile-icon"
+          />
+          <div class="username">
+            <h2>{data.username}</h2>
+            <p>Posted At: {data.created_at}</p>
+          </div>
         </div>
+        <a href="recipe/{data.id}">
+          <img src="/assets/images/pasta.webp" alt="" class="recipe-image" />
+        </a>
+        <h3>{data.name}</h3>
+        <p class="description"><span>Description:</span> {data.description}</p>
+        <p class="time">
+          <span>Preperation Time:</span>
+          {data.preparation_time} Minutes
+        </p>
+        <p class="time">
+          <span>Cooking Time:</span>
+          {data.cooking_time} Minutes
+        </p>
       </div>
-      <a href="recipe/{data.id}">
-        <img src="/assets/images/pasta.webp" alt="" class="recipe-image" />
-      </a>
-      <h3>{data.name}</h3>
-      <p class="description"><span>Description:</span> {data.description}</p>
-      <p class="time">
-        <span>Preperation Time:</span>
-        {data.preparation_time} Minutes
-      </p>
-      <p class="time">
-        <span>Cooking Time:</span>
-        {data.cooking_time} Minutes
-      </p>
-    </div>
-    <span
-      class="seperator"
-      in:fly={{ y: -10, duration: 500, delay: 500 }}
-      out:fly={{ y: -10, duration: 500 }}
-    />
+      <span
+        class="seperator"
+        in:fly={{ y: -10, duration: 500, delay: 500 }}
+        out:fly={{ y: -10, duration: 500 }}
+      />
+    {/if}
   {/each}
 {:catch error}
   <p>Something went wrong while fetching the data:</p>
