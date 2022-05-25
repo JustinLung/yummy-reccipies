@@ -1,11 +1,9 @@
-import adapter from '@sveltejs/adapter-node'
 
-/** @type {import('@sveltejs/kit').Config} */
+import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-node';
+
 const config = {
-  kit: {
-    adapter: adapter(),
-    adapter: adapter({ out: 'my-output-directory' }),
-  },
-}
-
-export default config
+    kit: {
+        adapter: adapter(),
+    },
+};
