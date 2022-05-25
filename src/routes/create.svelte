@@ -31,8 +31,6 @@
 >
   <legend>🍽 Create Recipe</legend>
 
-  <input type="file" on:change={getFile} />
-
   <div>
     <label for="recipeName">Recipe name</label>
     <input

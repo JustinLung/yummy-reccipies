@@ -31,17 +31,6 @@
         in:fly={{ y: -10, duration: 500, delay: 500 }}
         out:fly={{ y: -10, duration: 500 }}
       >
-        <div class="recipe-header">
-          <img
-            src="/assets/icons/profile-icon.svg"
-            alt="profile"
-            class="profile-icon"
-          />
-          <div class="username">
-            <h2>{data.username}</h2>
-            <p>Posted At: {data.created_at}</p>
-          </div>
-        </div>
         <a href="recipe/{data.id}">
           <img src="/assets/images/pasta.webp" alt="" class="recipe-image" />
         </a>

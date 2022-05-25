@@ -21,21 +21,6 @@
   <p class="loading-text">Loading Content...</p>
   <div class="loader" />
 {:then data}
-  <div
-    class="recipe-header"
-    in:fly={{ y: -10, duration: 500, delay: 500 }}
-    out:fly={{ y: -10, duration: 500 }}
-  >
-    <img
-      src="/assets/icons/profile-icon.svg"
-      alt="profile"
-      class="profile-icon"
-    />
-    <div class="username">
-      <h2>{data.profile_name}</h2>
-      <p>{data.username}</p>
-    </div>
-  </div>
   <section
     in:fly={{ y: -10, duration: 500, delay: 500 }}
     out:fly={{ y: -10, duration: 500 }}
